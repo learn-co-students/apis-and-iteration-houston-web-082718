@@ -16,13 +16,16 @@ require 'pry'
 #  and that method will do some nice presentation stuff: puts out a list
 #  of movies by title. play around with puts out other info about a given film.
 
-def get_character_movies_from_api(character)
-  #make the web request
+def star_wars_hash
   response_string = RestClient.get('http://www.swapi.co/api/people/')
   response_hash = JSON.parse(response_string)
+end
+
+def get_character_movies_from_api(character)
+  #make the web request
   films_array = []
 
-  response_hash["results"].each do |character_hash|
+  star_wars_hash["results"].each do |character_hash|
     if character_hash["name"] == character
       character_hash["films"].each do |film_url|
         film_info = RestClient.get(film_url)
@@ -48,7 +51,11 @@ end
 
 def show_character_movies(character)
   films_array = get_character_movies_from_api(character)
-  print_movies(films_array)
+    if films_array == []
+      puts "Are you sure that's not a Star Trek character, nerd? Try again."
+    else
+      print_movies(films_array)
+    end
 end
 
 ## BONUS
