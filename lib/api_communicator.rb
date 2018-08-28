@@ -40,7 +40,7 @@ end
 def print_movies(movie_hash)
   # some iteration magic and puts out the movies in a nice list
   if movie_hash.is_a?(Hash)
-    puts movie_hash["title"].compact
+    puts movie_hash["title"]
   end 
 end
 
