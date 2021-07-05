@@ -10,6 +10,21 @@ def get_character_movies_from_api(character)
   # NOTE: in this demonstration we name many of the variables _hash or _array. 
   # This is done for educational purposes. This is not typically done in code.
 
+  results_arr = response_hash["results"]
+  movies_arr = []
+  results_arr.each{|hash| 
+    if hash["name"] == character
+      movies_arr = hash["films"]
+    end 
+  }
+  movies_arr.map do |link|
+    get_movie = RestClient.get(link)
+    movie_hash = JSON.parse(get_movie)
+    print_movies(movie_hash)
+  end
+  
+
+    # return response_hash["films"]
 
   # iterate over the response hash to find the collection of `films` for the given
   #   `character`
@@ -22,8 +37,11 @@ def get_character_movies_from_api(character)
   #  of movies by title. play around with puts out other info about a given film.
 end
 
-def print_movies(films_hash)
+def print_movies(movie_hash)
   # some iteration magic and puts out the movies in a nice list
+  if movie_hash.is_a?(Hash)
+    puts movie_hash["title"]
+  end 
 end
 
 def show_character_movies(character)
